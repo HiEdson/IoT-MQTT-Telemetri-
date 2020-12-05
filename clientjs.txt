@@ -1,0 +1,21 @@
+var mqtt = require('mqtt');
+var client = mqtt.connect('//mqtt://127.0.0.1:1883');
+
+//mongodb+srv://hossii:estaduro@cluster0-ulsyt.mongodb.net/test?retryWrites=true&w=majority
+client.subscribe('location');
+//client.subscribe
+
+client.on('connect', function(){
+    console.log('connected');
+/*client.publish('new-user', 'edson-'+ Math.ceil(Math.random()*10));
+*/
+    client.subscribe('new-user', function(){
+        client.publish('new-user', 'Edson'+ Math.ceil(Math.random()*10)), {
+            retain:true,
+        }
+    });
+});
+
+client.on('message', function(topic, message){
+    console.log(topic, ':', message.toString());
+});
